@@ -148,6 +148,9 @@ my_bashrc: |
 
   # Activate virtual environment
   alias va='source ./venv/bin/activate'
+  
+  # Display all aliases
+  alias showaliases='awk '/^alias/ {sub(/^alias /,""); print}' ~/.bashrc'
 
   # ==========
   # functions

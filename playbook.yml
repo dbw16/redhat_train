@@ -80,6 +80,12 @@
         block: "{{ my_bashrc }}"
         state: present
 
+    - name: Ensure ~/.ssh/config is configured
+      ansible.builtin.blockinfile:
+        path: ~/.ssh/config
+        block: "{{ my_sshconfig }}"
+        state: present
+
     - name: Ensure lab timings cronjob is enabled
       ansible.builtin.cron:
         name: "Send lab data to api"

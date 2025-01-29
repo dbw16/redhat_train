@@ -74,9 +74,10 @@
         dest: "{{ item['value']['dest'] }}"
         mode: "{{ item['value']['permissions'] | default(omit) }}"
 
-    - name: Ensure ~/.bashrc is configured
+    - name: Ensure /etc/bashrc is configured
+      become: true
       ansible.builtin.blockinfile:
-        path: ~/.bashrc
+        path: /etc/bashrc
         block: "{{ my_bashrc }}"
         state: present
 
@@ -85,6 +86,37 @@
         path: ~/.ssh/config
         block: "{{ my_sshconfig }}"
         state: present
+
+    - name: Ensure /etc/bash_completion.d/glab is configured
+      become: true
+      ansible.builtin.shell: glab completion -s bash > /etc/bash_completion.d/glab
+
+    - name: Ensure my git config is set (mail) 
+      tags:
+        - never
+        - ricardo
+      community.general.git_config:
+        name: user.email
+        scope: global
+        value: rgdacosta@gmail.com 
+
+    - name: Ensure my git config is set (name) 
+      tags:
+        - never
+        - ricardo
+      community.general.git_config:
+        name: user.name
+        scope: global
+        value: Ricardo da Costa
+
+    - name: Ensure my git config is set (credentials cache)
+      tags:
+        - never
+        - ricardo
+      community.general.git_config:
+        name: credential.helper
+        scope: global
+        value: cache timeout=3600
 
     - name: Ensure lab timings cronjob is enabled
       ansible.builtin.cron:

@@ -153,7 +153,7 @@ my_bashrc: |
   alias va='source ./venv/bin/activate'
   
   # Display all aliases
-  alias showaliases="awk '/^alias/ {sub(/^alias[ \t]*/, \"\"); print}' ~/.bashrc"
+  alias showaliases="awk '/^alias/ {sub(/^alias[ \t]*/, \"\"); print}' /etc/bashrc"
 
   # ==========
   # functions

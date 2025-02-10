@@ -83,13 +83,6 @@
         block: "{{ my_bashrc }}"
         state: present
 
-    - name: Ensure /etc/zshrc is configured
-      become: true
-      ansible.builtin.blockinfile:
-        path: /etc/zshrc
-        block: "{{ my_zsh_rc }}"
-        state: present
-
     - name: Ensure ~/.ssh/config is configured
       ansible.builtin.blockinfile:
         path: ~/.ssh/config

@@ -180,6 +180,7 @@
 
       vars:
         oh_my_zsh_dir: "/home/student/.oh-my-zsh" # Customize path if needed
+      tags: zshrc  # Add the 'zshrc' tag
 
   handlers:
 

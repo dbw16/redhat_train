@@ -167,7 +167,7 @@
 
         - name: Set zsh as default shell (for the current user, or all users if needed)
           user:
-            name: "{{ ansible_user_id }}" # Or specify a different user
+            name: "student" # Or specify a different user
             shell: /bin/zsh
           become: true # Might need sudo for changing other users shell
 

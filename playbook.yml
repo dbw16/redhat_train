@@ -179,7 +179,7 @@
           when: oh_my_zsh_check.stat.exists # Only run if oh-my-zsh is already installed. Use this block for updating the .zshrc file.
 
       vars:
-        oh_my_zsh_dir: "{{ ansible_env.HOME }}/.oh-my-zsh" # Customize path if needed
+        oh_my_zsh_dir: "/home/student/.oh-my-zsh" # Customize path if needed
 
   handlers:
 

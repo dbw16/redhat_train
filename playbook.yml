@@ -174,7 +174,7 @@
 
         - name: Copy .zshrc template (Optional - for custom configuration)
           template:
-            src: ".zshrc.j2" # Your template file
+            src: "zshrc.j2" # Your template file
             dest: "{{ oh_my_zsh_dir }}/.zshrc"
             mode: 0644
           when: oh_my_zsh_check.stat.exists # Only run if oh-my-zsh is already installed. Use this block for updating the .zshrc file.

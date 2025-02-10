@@ -26,13 +26,6 @@
         state: installed
         disable_gpg_check: true
 
-    - name: set up zsh for user
-      tasks:
-        - name: change user shell to zsh
-          become: yes
-          user:
-            name: "student"
-            shell: /bin/zsh
           
     - name: Ensure pip3 is installed with python 3.11
       register: pip3_output
@@ -157,6 +150,43 @@
     - name: Create an Alt + Tab alternative with Alt + q
       ansible.builtin.shell: gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Alt>q']"
       changed_when: false
+
+    - name: Install Oh My Zsh
+      block:
+        - name: Check if Oh My Zsh is already installed
+          stat:
+            path: "{{ oh_my_zsh_dir }}"
+          register: oh_my_zsh_check
+
+        - name: Download Oh My Zsh install script
+          get_url:
+            url: "https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
+            dest: "/tmp/ohmyzsh_install.sh"
+            mode: 0755
+          when: not oh_my_zsh_check.stat.exists
+
+        - name: Run Oh My Zsh install script
+          shell: "/tmp/ohmyzsh_install.sh --unattended"
+          args:
+            executable: /bin/bash # Ensure bash is used for install
+          when: not oh_my_zsh_check.stat.exists
+          become: true  # Might need sudo depending on user setup
+
+        - name: Set zsh as default shell (for the current user, or all users if needed)
+          user:
+            name: "{{ ansible_user_id }}" # Or specify a different user
+            shell: /bin/zsh
+          become: true # Might need sudo for changing other users shell
+
+        - name: Copy .zshrc template (Optional - for custom configuration)
+          template:
+            src: ".zshrc.j2" # Your template file
+            dest: "{{ oh_my_zsh_dir }}/.zshrc"
+            mode: 0644
+          when: oh_my_zsh_check.stat.exists # Only run if oh-my-zsh is already installed. Use this block for updating the .zshrc file.
+
+      vars:
+        oh_my_zsh_dir: "{{ ansible_env.HOME }}/.oh-my-zsh" # Customize path if needed
 
   handlers:
 

@@ -21,9 +21,18 @@
       ansible.builtin.dnf:
         name:
           - sqlite
-          - "https://gitlab.com/gitlab-org/cli/-/releases/v1.47.0/downloads/glab_1.47.0_linux_amd64.rpm" 
+          - "https://gitlab.com/gitlab-org/cli/-/releases/v1.47.0/downloads/glab_1.47.0_linux_amd64.rpm"
+          - zsh
         state: installed
         disable_gpg_check: true
+
+    - name: set up zsh for user
+      tasks:
+        - name: change user shell to zsh
+          become: yes
+          user:
+            name: "student"
+            shell: /bin/zsh
           
     - name: Ensure pip3 is installed with python 3.11
       register: pip3_output
@@ -79,6 +88,13 @@
       ansible.builtin.blockinfile:
         path: /etc/bashrc
         block: "{{ my_bashrc }}"
+        state: present
+
+    - name: Ensure /etc/zshrc is configured
+      become: true
+      ansible.builtin.blockinfile:
+        path: /etc/zshrc
+        block: "{{ my_zsh_rc }}"
         state: present
 
     - name: Ensure ~/.ssh/config is configured

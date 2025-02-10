@@ -1,3 +1,5 @@
+Based on https://gitlab.com/rgdacosta/classroom_env
+with a couple things added for me by me
 ## About
 
 rdacosta@redhat.com

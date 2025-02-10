@@ -164,6 +164,7 @@
             executable: /bin/bash # Ensure bash is used for install
           when: not oh_my_zsh_check.stat.exists
           become: true  # Might need sudo depending on user setup
+          ignore_errors: yes
 
         - name: Set zsh as default shell (for the current user, or all users if needed)
           user:
